@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartilha Interativa: Engenharia Social</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background: #f6f9fc;
+      line-height: 1.6;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    header, footer {
+      background-color: #00264d;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    footer p {
+      margin: 8px 0;
+      font-size: 0.95em;
+    }
+    main {
+      max-width: 960px;
+      margin: 20px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+    nav {
+      background: #e1e9f0;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    nav a {
+      padding: 8px 12px;
+      color: #0074D9;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #d0e0f0;
+    }
+    section {
+      margin-bottom: 40px;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #0074D9;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #004080;
+      border-bottom: 2px solid #e1e9f0;
+      padding-bottom: 10px;
+    }
+    h3 {
+      color: #00264d;
+      margin-top: 20px;
+    }
+    .interactive-element {
+      background-color: #f5f9ff;
+      border: 1px solid #d0e0f0;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .tip-box {
+      background-color: #e1f5fe;
+      border-left: 5px solid #03a9f4;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+    .alert-box {
+      background-color: #fff8e1;
+      border-left: 5px solid #ffc107;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+    .checklist li {
+      padding-left: 25px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .checklist li:before {
+      content: '✅';
+      position: absolute;
+      left: 0;
+    }
+    .phishing-example {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      margin: 20px 0;
+    }
+    .quiz-container {
+      background-color: #f0f7ff;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .quiz-question {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quiz-option {
+      background-color: white;
+      border: 1px solid #d0e0f0;
+      border-radius: 6px;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quiz-option:hover {
+      background-color: #e6f2ff;
+    }
+    .quiz-option.selected {
+      background-color: #0074D9;
+      color: white;
+    }
+    .quiz-feedback {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+    .quiz-feedback.correct {
+      background-color: #d4edda;
+      border-left: 4px solid #28a745;
+    }
+    .quiz-feedback.incorrect {
+      background-color: #f8d7da;
+      border-left: 4px solid #dc3545;
+    }
+    .progress-container {
+      width: 100%;
+      height: 5px;
+      background: #f0f0f0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .progress-bar {
+      height: 5px;
+      background: #0074D9;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+    #backToTop {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99;
+      background-color: #0074D9;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 50px;
+      height: 50px;
+      transition: all 0.3s ease;
+    }
+    #backToTop:hover {
+      background-color: #004080;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <header>
+    <h1>Cartilha Interativa: Engenharia Social</h1>
+    <p>Iniciativa da CGJ e da Presidência do TJPA para orientação do público interno</p>
+    <button onclick="window.print()" style="margin-top: 15px; background-color: white; color: #00264d; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">📥 Baixar Cartilha em PDF</button>
+  </header>
+
+  <main>
+    <nav>
+      <a href="#introducao">🔍 Introdução</a>
+      <a href="#fundamentos">🛡️ Fundamentos</a>
+      <a href="#tecnicas">🎭 Técnicas</a>
+      <a href="#ciclo">🔄 Ciclo do Golpe</a>
+      <a href="#prevencao">🚨 Prevenção</a>
+      <a href="#publico">🏛️ Setor Público</a>
+      <a href="#legal">⚖️ Base Legal</a>
+      <a href="#cultura">📚 Para saber mais</a>
+    </nav>
+    
+    <section id="introducao">
+      <h2>🔍 Introdução</h2>
+      <p><strong>Proteja-se e proteja sua instituição contra ataques de engenharia social.</strong></p>
+      
+      <p>A engenharia social representa uma das principais ameaças à segurança da informação no ambiente judiciário. Diferentemente dos ataques puramente tecnológicos, essas técnicas exploram o fator humano, aproveitando-se da confiança, da boa-fé e da disposição natural das pessoas em ajudar.</p>
+      
+      <p>No contexto do Poder Judiciário, onde circulam informações sensíveis e decisões que afetam direitos fundamentais, a proteção contra esses ataques é essencial para preservar a integridade, a confiabilidade e a imagem do sistema de justiça.</p>
+      
+      <h3>O que é Engenharia Social?</h3>
+      <p>Conjunto de técnicas de manipulação psicológica usadas por criminosos para enganar pessoas e obter informações confidenciais, acesso a sistemas ou ações indevidas.</p>
+      
+      <div class="interactive-element">
+        <p><strong>A engenharia social explora fatores psicológicos humanos como:</strong></p>
+        <ul>
+          <li><strong>Confiança:</strong> Criminosos se passam por colegas, autoridades ou instituições confiáveis</li>
+          <li><strong>Medo:</strong> Criam situações de ameaça para pressionar decisões precipitadas</li>
+          <li><strong>Urgência:</strong> Impõem prazos apertados para impedir reflexão crítica</li>
+          <li><strong>Autoridade:</strong> Fingem representar figuras de poder ou órgãos institucionais</li>
+          <li><strong>Reciprocidade:</strong> Oferecem "favores" para criar obrigação moral</li>
+          <li><strong>Validação Social:</strong> Alegam que "outros já fizeram" para normalizar a ação</li>
+        </ul>
+      </div>
+      
+      <div class="quiz-container">
+        <div class="quiz-question">O que caracteriza principalmente a engenharia social?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="checkAnswer(this, true)">Manipulação psicológica para obter informações confidenciais</div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">Ataques técnicos avançados para invadir sistemas</div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">Invasão física às instalações para roubar equipamentos</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="fundamentos">
+      <h2>🛡️ Fundamentos da Segurança da Informação</h2>
+      
+      <div class="interactive-element">
+        <p><strong>Os três pilares fundamentais da segurança da informação são:</strong></p>
+        <ul>
+          <li><strong>Confidencialidade:</strong> Acesso apenas por pessoas autorizadas</li>
+          <li><strong>Integridade:</strong> Dados não podem ser alterados indevidamente</li>
+          <li><strong>Disponibilidade:</strong> Acesso garantido quando necessário</li>
+        </ul>
+      </div>
+      
+      <div class="tip-box">
+        <p>💡 Proteção de dados não é apenas uma questão técnica, mas também comportamental. Seus hábitos diários importam!</p>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="tecnicas">
+      <h2>🎭 Principais Técnicas de Engenharia Social</h2>
+      
+      <h3>1. Phishing (Isca Digital)</h3>
+      <p>Mensagens falsas simulando comunicações legítimas, usadas para roubar credenciais ou instalar malware.</p>
+      
+      <div class="phishing-example">
+        <p><strong>Exemplo no TJPA:</strong></p>
+        <p><strong>Assunto:</strong> Atualização Urgente - Sistema PJe</p>
+        <p>Prezado(a) Servidor(a),</p>
+        <p>O sistema PJe passará por manutenção emergencial. Para evitar interrupções, clique no link abaixo e confirme suas credenciais até as 18h de hoje.</p>
+        <p>[Link malicioso]</p>
+        <p>Atenciosamente, Suporte Técnico PJe</p>
+      </div>
+      
+      <h3>2. Vishing (Voice Phishing)</h3>
+      <p>Golpes por telefone com criminosos se passando por funcionários de instituições.</p>
+      
+      <div class="interactive-element">
+        <p><strong>Exemplo bancário:</strong></p>
+        <p><em>"Olá, aqui é João da Central de Segurança do Banco XYZ. Detectamos movimentações suspeitas em sua conta. Pode me informar os últimos quatro dígitos do seu cartão para confirmar a titularidade?"</em></p>
+        
+        <p><strong>Exemplo no Judiciário:</strong></p>
+        <p><em>"Bom dia, aqui é da Corregedoria. Estamos auditando acessos ao sistema. Preciso que o(a) senhor(a) confirme seu login e senha para verificar possíveis irregularidades."</em></p>
+      </div>
+      
+      <h3>3. Smishing (SMS ou WhatsApp)</h3>
+      <p>Mensagens de texto com links maliciosos ou pedidos urgentes.</p>
+      
+      <div class="alert-box">
+        <p><strong>Exemplo:</strong></p>
+        <p><em>TJPA - Sua conta será bloqueada em 2h por acesso irregular. Regularize em: [link]. Código: TJ2025</em></p>
+      </div>
+      
+      <h3>4. Pretexting (Criação de Cenários)</h3>
+      <p>Situações falsas e convincentes para extrair informações.</p>
+      
+      <div class="interactive-element">
+        <p><strong>Exemplo:</strong></p>
+        <p><em>"Doutor, sou Dr. Silva, OAB 12345. Tenho audiência urgente hoje e perdi meus dados do sistema. Pode me ajudar com o login? É um habeas corpus muito importante."</em></p>
+      </div>
+      
+      <h3>5. Baiting (Isca Física)</h3>
+      <p>Uso de dispositivos infectados para comprometer sistemas.</p>
+      
+      <div class="tip-box">
+        <p><strong>Exemplos:</strong></p>
+        <ul>
+          <li>Pen drives deixados no estacionamento do tribunal</li>
+          <li>CDs com títulos como "Jurisprudência Atualizada 2025"</li>
+        </ul>
+      </div>
+      
+      <h3>6. Quid Pro Quo (Troca de Favores)</h3>
+      <p>Ofertas de ajuda em troca de acesso ou dados.</p>
+      
+      <div class="interactive-element">
+        <p><strong>Exemplo:</strong></p>
+        <p><em>"Sou do suporte técnico. Estamos atualizando os antivírus. Posso fazer a instalação remota? Só preciso de seu usuário e senha."</em></p>
+      </div>
+      
+      <h3>7. Tailgating / Piggybacking (Carona Física)</h3>
+      <p>Acesso indevido a áreas restritas ao acompanhar pessoas autorizadas.</p>
+      
+      <div class="alert-box">
+        <p><strong>Exemplos:</strong></p>
+        <ul>
+          <li>Alguém vestido de técnico espera para entrar com um servidor</li>
+          <li>Pessoa se passa por entregador e solicita acompanhamento até área interna</li>
+        </ul>
+      </div>
+      
+      <h3>8. Shoulder Surfing (Bisbilhotagem)</h3>
+      <p>Observação discreta de senhas ou dados sensíveis.</p>
+      
+      <div class="tip-box">
+        <p><strong>Exemplos:</strong></p>
+        <ul>
+          <li>Espiar a digitação de senhas em elevadores ou cafés</li>
+          <li>Uso de câmeras ou ângulos estratégicos para capturar telas</li>
+        </ul>
+      </div>
+      
+      <h3>📧 Cenários Específicos do Ambiente Judicial</h3>
+      
+      <h4>E-mails Institucionais Fraudulentos</h4>
+      
+      <div class="phishing-example">
+        <p><strong>Situação 1: Falsa Comunicação da Corregedoria</strong></p>
+        <p><strong>Assunto:</strong> Processo Disciplinar - Resposta Obrigatória</p>
+        <p>Foi aberto processo administrativo contra você. Para evitar suspensão, acesse o link abaixo e apresente defesa em 24h.</p>
+        <p>[Link malicioso]</p>
+      </div>
+      
+      <div class="phishing-example">
+        <p><strong>Situação 2: Suposta Atualização de Sistema</strong></p>
+        <p><strong>Assunto:</strong> Nova Versão do SEEU - Instalação Obrigatória</p>
+        <p>O sistema SEEU será descontinuado. Baixe a nova versão no anexo e instale hoje para não comprometer seu acesso.</p>
+        <p>[Anexo com malware]</p>
+      </div>
+      
+      <div class="phishing-example">
+        <p><strong>Situação 3: Falso Comunicado sobre Benefícios</strong></p>
+        <p><strong>Assunto:</strong> Gratificação Especial - Cadastro Necessário</p>
+        <p>Foi aprovada gratificação de R$ 2.000 para servidores. Cadastre-se no link abaixo informando CPF, conta bancária e código de segurança.</p>
+        <p>[Link malicioso]</p>
+      </div>
+      
+      <h4>📞 Ligações de Supostos Agentes Bancários</h4>
+      
+      <div class="interactive-element">
+        <p><strong>Cenário 1: Urgência Falsa</strong></p>
+        <p><em>"Detectamos tentativa de empréstimo em seu nome. Para bloquear, informe o código do seu token agora."</em></p>
+        
+        <p><strong>Cenário 2: Oferta Irresistível</strong></p>
+        <p><em>"Servidor público pré-aprovado para cartão sem anuidade e limite de R$ 50 mil. Qual sua renda líquida?"</em></p>
+        
+        <p><strong>Cenário 3: Problema com PIX</strong></p>
+        <p><em>"Seu CPF foi usado em transações suspeitas. Para proteger, preciso da senha para reativar seu PIX."</em></p>
+      </div>
+      
+      <h4>📱 Mensagens de Texto (SMS/WhatsApp)</h4>
+      
+      <div class="alert-box">
+        <p><strong>Exemplo 1: Problemas com CPF</strong></p>
+        <p><em>RECEITA FEDERAL: Seu CPF foi suspenso por irregularidades. Regularize em 6h: [link].</em></p>
+      </div>
+      
+      <div class="alert-box">
+        <p><strong>Exemplo 2: Suposto Benefício</strong></p>
+        <p><em>GOVERNO FEDERAL: Você tem direito ao Auxílio Servidor 2025 – R$ 1.200. Solicite hoje: [link].</em></p>
+      </div>
+      
+      <div class="alert-box">
+        <p><strong>Exemplo 3: Entrega Fraudulenta</strong></p>
+        <p><em>CORREIOS: Encomenda retida. Taxa de R$ 8,50 para liberação: [link]. Código: BR123456789.</em></p>
+      </div>
+      
+      <h4>⚖️ Ataques Direcionados a Magistrados</h4>
+      
+      <div class="interactive-element">
+        <p><strong>Situação 1: Falso Assessor</strong></p>
+        <p><em>"Sou o novo assessor do Desembargador Silva. Ele precisa da sua análise urgente. Pode me passar seu e-mail e senha para encaminhar os autos?"</em></p>
+        
+        <p><strong>Situação 2: Suposto Colega</strong></p>
+        <p><em>"Sou o Juiz Antônio da 2ª Vara. Preciso consultar o processo XYZ para decisão liminar. Pode acessar e me enviar a petição inicial?"</em></p>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="ciclo">
+      <h2>🔄 Ciclo de um Golpe de Engenharia Social</h2>
+      
+      <div class="interactive-element">
+        <ol>
+          <li><strong>Coleta de Informações:</strong> O atacante (golpista) pesquisa dados em redes sociais, sites corporativos e outras fontes públicas</li>
+          <li><strong>Criação de Vínculo:</strong> Estabelece contato usando identidade falsa com base nos dados coletados</li>
+          <li><strong>Exploração da Relação:</strong> Induz a vítima a entregar dados sensíveis ou clicar em links maliciosos</li>
+          <li><strong>Execução da Fraude:</strong> Usa as informações obtidas para acessar sistemas, dados ou contas bancárias</li>
+        </ol>
+      </div>
+      
+      <div class="tip-box">
+        <p>💡 Cuidado com informações que você compartilha publicamente! Um atacante (golpista) pode montar um perfil detalhado sobre você a partir de posts em redes sociais.</p>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="prevencao">
+      <h2>🚨 Sinais de Alerta e Prevenção</h2>
+      
+      <h3>🚨 Sinais de Alerta</h3>
+      <ul>
+        <li>Urgência excessiva</li>
+        <li>Links estranhos ou com erros de ortografia no endereço</li>
+        <li>Erros ortográficos e gramaticais no texto</li>
+        <li>Ameaças ou pressão psicológica</li>
+        <li>Pedidos fora do comum ou de informações sensíveis</li>
+        <li>E-mails genéricos ("Prezado cliente") são sinal de alerta</li>
+      </ul>
+      
+      <h3>🛡️ Estratégias de Proteção</h3>
+      
+      <div class="alert-box">
+        <h4>1. Verificação Contínua</h4>
+        <ul>
+          <li>Nunca forneça dados pessoais, bancários ou senhas por telefone, e-mail ou mensagem</li>
+          <li>Confirme a identidade por canais oficiais</li>
+          <li>Desconfie de urgência excessiva — instituições sérias não pressionam por decisões imediatas</li>
+          <li>Verifique links e e-mails antes de clicar ou abrir anexos</li>
+        </ul>
+      </div>
+      
+      <div class="alert-box">
+        <h4>2. Análise Crítica</h4>
+        <ul>
+          <li>Questione propostas excessivamente vantajosas</li>
+          <li>Fique atento a erros gramaticais em mensagens oficiais</li>
+          <li>E-mails genéricos ("Prezado cliente") são sinal de alerta</li>
+          <li>Verifique cuidadosamente o endereço de e-mail do remetente</li>
+        </ul>
+      </div>
+      
+      <div class="alert-box">
+        <h4>3. Proteção de Informações</h4>
+        <ul>
+          <li>Evite divulgar dados funcionais em redes sociais</li>
+          <li>Não poste fotos com documentos, telas ou crachás visíveis</li>
+          <li>Evite responder pesquisas telefônicas ou online sobre trabalho</li>
+          <li>Proteja conversas confidenciais em locais públicos</li>
+        </ul>
+      </div>
+      
+      <h3>✅ Checklist de Segurança</h3>
+      <ul class="checklist">
+        <li>Verifico cuidadosamente o endereço de e-mail do remetente</li>
+        <li>Nunca compartilho senhas, mesmo com suporte técnico</li>
+        <li>Uso autenticação em duas etapas em todas as contas importantes</li>
+        <li>Instalo aplicativos apenas de fontes oficiais e confiáveis</li>
+        <li>Confirmo solicitações suspeitas por canais alternativos (telefone oficial)</li>
+        <li>Bloqueio meu computador sempre que me ausento da estação de trabalho</li>
+        <li>Atualizo minhas senhas regularmente e uso gerenciador de senhas</li>
+      </ul>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="publico">
+      <h2>🏛️ Segurança no Setor Público</h2>
+      
+      <div class="interactive-element">
+        <p><strong>Medidas essenciais para instituições públicas:</strong></p>
+        <ul>
+          <li>Política de senhas robusta e atualizada regularmente</li>
+          <li>Monitoramento constante de acessos e atividades suspeitas</li>
+          <li>Treinamentos regulares para todos os servidores (Educação e treinamento contínuo)</li>
+          <li>Canal dedicado para reportar incidentes de segurança</li>
+          <li>Classificação adequada das informações por nível de sigilo</li>
+          <li>Implementação de políticas de segurança</li>
+          <li>Monitoramento e resposta a incidentes</li>
+        </ul>
+      </div>
+      
+      <div class="tip-box">
+        <p>💡 Cuidado com informações que você compartilha publicamente! Um atacante (golpista) pode montar um perfil detalhado sobre você a partir de posts em redes sociais.</p>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="legal">
+      <h2>⚖️ Base Legal</h2>
+      
+      <div class="interactive-element">
+        <ul>
+          <li><strong>Súmula 479 do STJ;</strong></li>
+          <li><strong>Código de Defesa do Consumidor - CDC (Lei nº 8.078/1990);</strong></li>
+          <li><strong>Lei Geral de Proteção de Dados - LGPD (Lei nº 13.709/2018);</strong></li>
+          <li><strong>Lei de Acesso à Informação - LAI (Lei nº 12.527/2011).</strong></li>
+        </ul>
+      </div>
+      
+      <div class="alert-box">
+        <p><strong>⚠️ Responsabilidade do Servidor:</strong></p>
+        <p>Servidores públicos podem responder administrativa, civil e até penalmente por negligência na proteção de dados sob sua guarda (Arts. 23, 26 e 42 da Lei Geral de Proteção de Dados - Lei 13.709/2018).</p>
+      </div>
+      
+      <div class="tip-box">
+        <p><strong>Recomendações Finais:</strong></p>
+        <ul>
+          <li>Utilize autenticação multifator (MFA) nos sistemas disponíveis</li>
+          <li>Em caso de dúvida, contate o suporte institucional ou a Ouvidoria</li>
+          <li>Lembre-se: o compartilhamento indevido de dados pode violar a Lei Geral de Proteção de Dados (LGPD)</li>
+        </ul>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.95em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+    
+    <section id="cultura">
+      <h2>📚 Para saber mais</h2>
+      
+      <h3>Cultura de Prevenção</h3>
+      
+      <p><strong>Saiba Mais:</strong></p>
+      <ul class="checklist">
+        <li><a href="https://www.cnj.jus.br/wp-content/uploads/2023/12/cartilha-seguranca-informacao-digital.pdf" target="_blank" style="color: #0074D9; text-decoration: none;">Cartilha de Segurança da Informação (CNJ)</a></li>
+        <li><a href="https://www.gov.br/abin/pt-br/institucional/acoes-e-programas/PNPC/boas-praticas-1" target="_blank" style="color: #0074D9; text-decoration: none;">Guias, Folderes e Cartilhas da Agência Brasileira de Inteligência</a></li>
+        <li><a href="https://acrobat.adobe.com/id/urn:aaid:sc:US:001e1996-e78a-4976-925d-7952485c87fb" target="_blank" style="color: #0074D9; text-decoration: none;">Curso Básico de Segurança Cibernética - Unidade 03: Golpes Digitais (EJPA/TJPA)</a></li>
+      </ul>
+      
+      <h3>✍️ Referências</h3>
+      <div class="interactive-element">
+        <ul style="line-height: 1.8;">
+          <li>LOTUFO, Larissa. Engenharia Social. In: SLEIMAN, Cristina et al. <strong>Segurança digital: proteção de dados nas empresas.</strong> Organização: Patricia Peck Pinheiro. São Paulo: Atlas, 2021. Cap. 7, p. 96-101.</li>
+          <li>MITNICK, Kevin D.; SIMON, William L. <strong>A arte de enganar: controlando o fator humano na segurança da informação.</strong> Tradução de Kátia Aparecida Roque. Revisão técnica de Olavo José Anchieschi Gomes. São Paulo: Pearson Education do Brasil, 2003.</li>
+        </ul>
+      </div>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="background-color: #0074D9; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1em; margin-top: 20px; transition: all 0.3s ease;">⬆️ Voltar ao Topo</button>
+    </section>
+  </main>
+  
+  <!-- Botão Voltar ao Topo Fixo -->
+  <button id="backToTop" title="Voltar ao topo">⬆️</button>
+  
+  <footer>
+    <p style="margin: 8px 0;">© 2025</p>
+    <p style="margin: 8px 0; font-size: 1em;">Iniciativa: Corregedoria Geral de Justiça do Estado do Pará - CGJ e Presidência do TJPA</p>
+    <p style="margin: 8px 0;">Gerência-Geral do Projeto: Desa. Elvina Gemaque Taveira</p>
+    <p style="margin: 8px 0;">Elaboração: Dilcele Fernandes de Oliveira Pother Furtado | CGJ/TJPA</p>
+    <p style="margin: 8px 0;">Revisão Técnica: Monique Soares Leite | CGJ/TJPA</p>
+    <p style="margin: 8px 0;">Revisão Técnica: Simone Tavares | SETIC/TJPA</p>
+  </footer>
+  
+  <script>
+    // Função do quiz
+    function checkAnswer(element, isCorrect) {
+      const options = element.parentElement.querySelectorAll('.quiz-option');
+      const feedback = element.parentElement.nextElementSibling;
+      
+      options.forEach(opt => opt.classList.remove('selected'));
+      element.classList.add('selected');
+      
+      feedback.style.display = 'block';
+      if (isCorrect) {
+        feedback.className = 'quiz-feedback correct';
+        feedback.innerHTML = '✅ <strong>Correto!</strong> Sempre desconfie e confirme por canais oficiais antes de fornecer qualquer informação.';
+      } else {
+        feedback.className = 'quiz-feedback incorrect';
+        feedback.innerHTML = '❌ <strong>Incorreto.</strong> O correto é desconfiar e confirmar a solicitação por canal oficial antes de tomar qualquer ação.';
+      }
+    }
+    
+    // Barra de progresso
+    window.addEventListener('scroll', function() {
+      var scrollTop = window.scrollY;
+      var docHeight = document.body.offsetHeight;
+      var winHeight = window.innerHeight;
+      var scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+      document.getElementById('progressBar').style.width = scrollPercent + '%';
+    });
+    
+    // Botão voltar ao topo
+    var backToTopButton = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'block';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+    
+    backToTopButton.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
