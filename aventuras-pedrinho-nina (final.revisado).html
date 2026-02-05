@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventuras de Pedrinho e Nina - Cartilha Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .subtitle {
+            color: #ffd700;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,215,0,0.5); }
+            50% { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,215,0,0.8); }
+        }
+        
+        .progress-container {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            height: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .page-indicator {
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        .page {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            display: none;
+            animation: fadeInUp 0.6s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-badge {
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 0 20px 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            animation: badgeWiggle 3s ease-in-out infinite;
+        }
+        
+        @keyframes badgeWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .character-card {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: 3px solid #00bcd4;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        
+        .character-card:hover::before {
+            left: 100%;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-10px) scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        
+        .character-emoji {
+            font-size: 80px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        
+        .character-name {
+            color: #00838f;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .character-desc {
+            color: #004d40;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .villain-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-color: #c92a2a;
+            animation: villainPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes villainPulse {
+            0%, 100% { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+            50% { box-shadow: 0 8px 30px rgba(255,0,0,0.4); }
+        }
+        
+        .villain-card .character-name {
+            color: #fff;
+        }
+        
+        .villain-card .character-desc {
+            color: #ffe0e0;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .story-step {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 8px solid #e17055;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .story-step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #e17055;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            animation: numberPop 0.5s ease;
+        }
+        
+        @keyframes numberPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .step-title {
+            color: #d63031;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 10px 0 15px 0;
+        }
+        
+        .step-content {
+            color: #2d3436;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e6f2ff 0%, #c3dafe 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 4px solid #4299e1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .info-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .info-title {
+            color: #2c5282;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-text {
+            color: #2d3748;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+        
+        .tactics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tactic-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-top: 5px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tactic-card:hover {
+            transform: translateY(-10px) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        
+        .tactic-card.joy {
+            border-top-color: #ffd700;
+            background: linear-gradient(135deg, #fff9e6 0%, #fff4cc 100%);
+        }
+        
+        .tactic-card.fear {
+            border-top-color: #ff6b6b;
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+        }
+        
+        .tactic-card.rush {
+            border-top-color: #ff9500;
+            background: linear-gradient(135deg, #fff3e6 0%, #ffe6cc 100%);
+        }
+        
+        .tactic-card.fake {
+            border-top-color: #9b59b6;
+            background: linear-gradient(135deg, #f3e6ff 0%, #e6ccff 100%);
+        }
+        
+        .tactic-emoji {
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: tacticBounce 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes tacticBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .tactic-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .tactic-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tactic-list li {
+            padding: 8px 0;
+            color: #34495e;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .tactic-list li:before {
+            content: "⚠️ ";
+            margin-right: 8px;
+        }
+        
+        .disguises-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .disguise-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 150px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 3px solid #2196f3;
+            cursor: pointer;
+        }
+        
+        .disguise-card:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        
+        .disguise-emoji {
+            font-size: 60px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+            display: inline-block;
+            animation: disguiseFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes disguiseFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .disguise-name {
+            color: #0d47a1;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .disguise-card p {
+            color: #1565c0;
+            font-size: 0.85em;
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+        
+        .disguise-card li {
+            color: #1976d2;
+            font-size: 0.8em;
+            text-align: left;
+            line-height: 1.5;
+            margin: 5px 0;
+        }
+        
+        .shield-rules {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .rule-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 6px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .rule-card:hover {
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .rule-card:nth-child(1) { border-left-color: #4299e1; }
+        .rule-card:nth-child(2) { border-left-color: #f6ad55; }
+        .rule-card:nth-child(3) { border-left-color: #48bb78; }
+        .rule-card:nth-child(4) { border-left-color: #ed64a6; }
+        .rule-card:nth-child(5) { border-left-color: #9f7aea; }
+        
+        .rule-icon {
+            font-size: 50px;
+            min-width: 60px;
+            text-align: center;
+            animation: ruleWiggle 3s ease-in-out infinite;
+        }
+        
+        @keyframes ruleWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+        
+        .rule-content {
+            flex: 1;
+        }
+        
+        .rule-title {
+            color: #2d3748;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .rule-text {
+            color: #4a5568;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        
+        .quiz-container {
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            padding: 25px;
+            border-radius: 18px;
+            margin: 20px 0;
+            border: 4px solid #ff9500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-question:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            color: #2d3748;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-option {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            background: white;
+            border: 3px solid #cbd5e0;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(66, 153, 225, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .quiz-option:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .quiz-option:hover {
+            transform: scale(1.05);
+            border-color: #4299e1;
+            background: #ebf8ff;
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            border-color: #48bb78;
+            animation: correctPulse 0.8s;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%);
+            border-color: #f56565;
+            animation: shake 0.6s;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            display: none;
+            animation: slideDown 0.4s;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            border-left: 6px solid #48bb78;
+            color: #22543d;
+        }
+        
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%);
+            border-left: 6px solid #f56565;
+            color: #742a2a;
+        }
+        
+        .quiz-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: scoreAppear 0.5s ease;
+        }
+        
+        @keyframes scoreAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: inherit;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .certificate {
+            background: linear-gradient(135deg, #fff 0%, #f7fafc 100%);
+            border: 8px double #667eea;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            margin: 30px auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(102, 126, 234, 0.03) 10px,
+                rgba(102, 126, 234, 0.03) 20px
+            );
+            animation: certificatePattern 20s linear infinite;
+        }
+        
+        @keyframes certificatePattern {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .certificate-badge {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: rotateBadge 4s linear infinite;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+        
+        @keyframes rotateBadge {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .certificate-title {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .certificate-text {
+            color: #2d3748;
+            font-size: 1.2em;
+            margin: 15px 0;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .certificate-name {
+            color: #667eea;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .activity-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-top: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-15px) rotate(-2deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .activity-icon {
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: activityPulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes activityPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .activity-title {
+            color: #2d3748;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .activity-desc {
+            color: #4a5568;
+            font-size: 1em;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: rgba(45, 55, 72, 0.95);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+        }
+        
+        footer p {
+            margin: 8px 0;
+            font-size: 1em;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .page {
+                padding: 25px;
+            }
+            
+            .character-grid,
+            .tactics-grid,
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                font-size: 1em;
+                padding: 12px 24px;
+            }
+            
+            .quiz-options {
+                flex-direction: column;
+            }
+            
+            .quiz-option {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Aventuras de Pedrinho e Nina 🌟</h1>
+        <div class="subtitle">Contra os Truques da Internet</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress" style="width: 0%"></div>
+        </div>
+        
+        <div class="page-indicator">
+            Página <span id="currentPage">1</span> de <span id="totalPages">11</span>
+        </div>
+        
+        <!-- Página 1: Capa -->
+        <div class="page active" id="page1">
+            <div class="hero-badge">Para crianças</div>
+            <h2>Bem-vindo à Aventura Digital! 🚀</h2>
+            
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 120px; margin-bottom: 20px;">🦸‍♂️🦸‍♀️</div>
+                <p style="font-size: 1.3em; color: #2d3748; line-height: 1.8; max-width: 700px; margin: 0 auto;">
+                    Prepare-se para uma aventura emocionante com <strong style="color: #667eea;">Pedrinho</strong> e <strong style="color: #f093fb;">Nina</strong>! 
+                    Juntos, vocês vão aprender a se proteger dos truques malvados do <strong style="color: #e74c3c;">Capitão Mentira</strong> 
+                    e se tornar verdadeiros <strong style="color: #27ae60;">Heróis Digitais</strong>! 🛡️
+                </p>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-title">📚 O que você vai aprender:</div>
+                <div class="info-text">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">✅ O que é Engenharia Social</li>
+                        <li style="padding: 8px 0;">✅ Como identificar truques na internet</li>
+                        <li style="padding: 8px 0;">✅ Regras para navegar com segurança</li>
+                        <li style="padding: 8px 0;">✅ Como proteger suas senhas e informações</li>
+                        <li style="padding: 8px 0;">✅ Dicas para se tornar um Detetive Digital!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" disabled>⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(2)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 2: Personagens -->
+        <div class="page" id="page2">
+            <div class="hero-badge">Conheça a Turma</div>
+            <h2>Nossos Heróis Digitais 🦸</h2>
+            
+            <div class="character-grid">
+                <div class="character-card">
+                    <div class="character-emoji">👦</div>
+                    <div class="character-name">Pedrinho</div>
+                    <div class="character-desc">
+                        Menino curioso de 9 anos que adora explorar jogos e vídeos no tablet. 
+                        Às vezes age por impulso, mas sempre aprende com os erros!
+                    </div>
+                </div>
+                
+                <div class="character-card">
+                    <div class="character-emoji">👧</div>
+                    <div class="character-name">Nina</div>
+                    <div class="character-desc">
+                        Amiga esperta de 8 anos, muito atenta às armadilhas digitais. 
+                        Ela é a detetive do grupo e adora desvendar mistérios!
+                    </div>
+                </div>
+                
+                <div class="character-card">
+                    <div class="character-emoji">🤖</div>
+                    <div class="character-name">Prot</div>
+                    <div class="character-desc">
+                        O robô protetor da internet segura! Sempre aparece para 
+                        ensinar e proteger as crianças dos perigos digitais.
+                    </div>
+                </div>
+                
+                <div class="character-card villain-card">
+                    <div class="character-emoji">🦹‍♂️</div>
+                    <div class="character-name">Capitão Mentira</div>
+                    <div class="character-desc">
+                        O vilão digital que se disfarça para enganar crianças 
+                        e roubar senhas e segredos! Cuidado com ele!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(1)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(3)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 3: A Primeira Aventura -->
+        <div class="page" id="page3">
+            <div class="hero-badge">História</div>
+            <h2>A Primeira Aventura 📱</h2>
+            
+            <div class="story-step">
+                <div class="step-number">1</div>
+                <div class="step-title">🎁 Um Estranho na Tela</div>
+                <div class="step-content">
+                    Pedrinho estava jogando no tablet quando de repente apareceu uma mensagem:
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px dashed #e17055;">
+                        <strong style="color: #d63031;">"PARABÉNS! Você ganhou um celular novo! Digite a senha do tablet dos seus pais para receber!"</strong>
+                    </div>
+                    <p style="margin-top: 15px;">Os olhos de Pedrinho brilharam... Será que era verdade? 🤔</p>
+                </div>
+            </div>
+            
+            <div class="story-step">
+                <div class="step-number">2</div>
+                <div class="step-title">🚨 Nina Intervém</div>
+                <div class="step-content">
+                    Nina estava por perto e logo percebeu o perigo:
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #00b894;">
+                        <strong style="color: #00b894;">"PARA TUDO! Pedrinho, isso cheira a truque do Capitão Mentira!"</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="story-step">
+                <div class="step-number">3</div>
+                <div class="step-title">🤖 Prot Aparece</div>
+                <div class="step-content">
+                    De repente, uma luz azul brilhou e Prot, o robô protetor, apareceu:
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #0984e3;">
+                        <strong style="color: #0984e3;">"Muito bem, Nina! Vocês acabaram de encontrar uma tentativa de engenharia social!"</strong>
+                    </div>
+                    <p style="margin-top: 15px;">Mas o que será isso? 🤷‍♂️</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(2)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(4)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 4: O que é Engenharia Social -->
+        <div class="page" id="page4">
+            <div class="hero-badge">Aprendendo</div>
+            <h2>O que é Engenharia Social? 🎭</h2>
+            
+            <div class="info-box">
+                <div class="info-title">📖 Definição</div>
+                <div class="info-text">
+                    "Engenharia social é quando alguém usa truques para enganar você e conseguir 
+                    coisas importantes, como senhas ou informações sobre sua família."
+                </div>
+            </div>
+            
+            <div class="info-box" style="background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%); border-color: #ff9500;">
+                <div class="info-title" style="color: #cc7a00;">🏰 Então...</div>
+                <div class="info-text" style="color: #8b5a00;">
+                    "É como se alguém não tentasse quebrar a porta, mas sim convencesse você 
+                    a abrir e entregar o tesouro! Sabe, é como se alguém tentasse te convencer a abrir a porta da sua casa ou te convencer a passar informações sobre o que tem dentro de sua casa. Isso seria muito perigoso!"
+                </div>
+            </div>
+            
+            <div class="info-box" style="background: linear-gradient(135deg, #f0e6ff 0%, #e6ccff 100%); border-color: #9b59b6;">
+                <div class="info-title" style="color: #6c3483;">✨ Imagine</div>
+                <div class="info-text" style="color: #512e5f;">
+                    "É como um mágico malvado que usa truques com mensagens e sites falsos 
+                    para roubar seus segredos ou fazer com que você dê informações sobre onde estuda, onde seus pais trabalham, onde você mora!"
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 100px; margin-bottom: 20px;">🦹‍♂️🎭🔐</div>
+                <p style="font-size: 1.2em; color: #e74c3c; font-weight: bold;">
+                    O Capitão Mentira usa esses truques para enganar crianças!
+                </p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(3)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(5)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 5: Como Funciona -->
+        <div class="page" id="page5">
+            <div class="hero-badge">Táticas do Vilão</div>
+            <h2>Como Funciona a Engenharia Social 🎯</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; color: #2d3748; margin-bottom: 30px;">
+                O Capitão Mentira usa 4 truques principais para enganar as pessoas:
+            </p>
+            
+            <div class="tactics-grid">
+                <div class="tactic-card joy">
+                    <div class="tactic-emoji">🎉</div>
+                    <div class="tactic-title">ALEGRIA</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Te faz ficar super animado:</p>
+                    <ul class="tactic-list">
+                        <li>🎁 "Você ganhou um prêmio incrível!"</li>
+                        <li>⭐ "Parabéns! Você é especial!"</li>
+                        <li>🎮 "Ganhe 1000 moedas grátis!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por quê funciona? Quando ficamos muito felizes, esquecemos de pensar com cuidado!</p>
+                    </ul>
+                </div>
+                
+                <div class="tactic-card fear">
+                    <div class="tactic-emoji">😱</div>
+                    <div class="tactic-title">MEDO</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Te faz ficar assustado:</p>
+                    <ul class="tactic-list">
+                        <li>⚠️ "Sua conta será fechada!"</li>
+                        <li>🚨 "Problema grave aconteceu!"</li>
+                        <li>❌ "Você está em perigo!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por quê funciona? O medo nos faz agir rápido sem pensar direito!</p>
+                    </ul>
+                </div>
+                
+                <div class="tactic-card rush">
+                    <div class="tactic-emoji">⏰</div>
+                    <div class="tactic-title">PRESSA</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Te faz agir sem pensar:</p>
+                    <ul class="tactic-list">
+                        <li>⏱️ "Só restam 5 minutos!"</li>
+                        <li>🔥 "Última chance!"</li>
+                        <li>⚡ "Responda AGORA!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por quê funciona? A pressa nos impede de chamar um adulto para ajudar!</p>
+                    </ul>
+                </div>
+                
+                <div class="tactic-card fake">
+                    <div class="tactic-emoji">👤</div>
+                    <div class="tactic-title">FINGIR SER CONHECIDO</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Finge ser amigo ou alguém que você conhece:</p>
+                    <ul class="tactic-list">
+                        <li>👨‍👩‍👧 "Sou amigo dos seus pais"</li>
+                        <li>🏫 "Trabalho na sua escola"</li>
+ 			<li>🎮 "Sou do suporte do jogo"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por quê funciona? Confiamos mais em pessoas que parecem conhecidas!</p>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(4)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(6)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 6: Disfarces do Capitão Mentira -->
+        <div class="page" id="page6">
+            <div class="hero-badge">Atenção!</div>
+            <h2>Os Disfarces do Capitão Mentira 🎭</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; color: #2d3748; margin-bottom: 30px;">
+                O vilão tem muitos disfarces! Aprenda a reconhecê-los:
+            </p>
+            
+            <div class="disguises-container">
+                <div class="disguise-card">
+                    <div class="disguise-emoji">🎁</div>
+                    <div class="disguise-name">Super Prêmio</div>
+ 		<p style="text-align: center; color: #666; margin-bottom: 10px;">Te faz ficar super animado:</p>
+           		<li>"🎉 Você ganhou um prêmio incrível!"</li>
+                        <li>"🎮 Responda para liberar 1000 moedas!"</li>
+ 			<li>"🎊 Parabéns! Você foi escolhido(a)!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por que funciona?
+Quando ficamos empolgados, esquecemos de pensar com cuidado – e clicamos sem verificar se o prêmio é real.</p>
+                </div>
+                
+                <div class="disguise-card">
+                    <div class="disguise-emoji">🏫</div>
+                    <div class="disguise-name">A Escola</div>
+		<p style="text-align: center; color: #666; margin-bottom: 10px;">Finge ser alguém da escola:</p>
+           		<li>"📩 Sua professora mandou esse link de atividades."</li>
+                        <li>"📚 Atualize seus dados da escola aqui."</li>
+ 			<li>"🖊️ O boletim está disponível, clique para ver."</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por que funciona?
+Usar o nome da escola ou de professores faz parecer confiável – e as crianças acreditam porque relacionam com o ambiente de aprendizado.</p>
+                </div>
+                
+                <div class="disguise-card">
+                    <div class="disguise-emoji">👥</div>
+                    <div class="disguise-name">Falso Amigo</div>
+		<p style="text-align: center; color: #666; margin-bottom: 10px;">Finge ser alguém que você conhece:</p>
+           		<li>"👋 Sou eu! Mudei de número, me adiciona aqui."</li>
+                        <li>"🤝 Me ajuda, preciso de um código urgente."</li>
+ 			<li>"💬 Olha essa foto engraçada da turma!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por que funciona?
+Confiamos mais em pessoas conhecidas – por isso, quando alguém imita um amigo, é mais fácil cair na armadilha.</p>
+                </div>
+                
+                <div class="disguise-card">
+                    <div class="disguise-emoji">⚠️</div>
+                    <div class="disguise-name">Problema Urgente</div>
+<p style="text-align: center; color: #666; margin-bottom: 10px;">Tenta te deixar assustado ou com pressa:</p>
+           		<li>"🚨 Sua conta será bloqueada!"</li>
+                        <li>"⚡ Último aviso! Acesse agora!"</li>
+ 			<li>"❗ Seu perfil será excluído hoje!"</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por que funciona?
+O medo e a pressa fazem a gente agir sem pensar direito – e os golpistas contam com isso para enganar.</p>
+                </div>
+                
+                <div class="disguise-card">
+                    <div class="disguise-emoji">💼</div>
+                    <div class="disguise-name">Funcionário Importante</div>
+<p style="text-align: center; color: #666; margin-bottom: 10px;">Finge ser alguém importante ou de uma empresa:</p>
+           		<li>"👨‍💼 Aqui é do suporte técnico, preciso dos seus dados."</li>
+                        <li>"📞 Sou funcionário do banco, confirme seu o número dos seus documentos."</li>
+ 			<li>"🏢 Estamos atualizando o sistema, envie seu código."</li>
+                    <p style="text-align: center; color: #666; margin-bottom: 10px;">Por que funciona?
+A autoridade passa confiança – quando alguém parece "oficial", temos medo de dizer não ou de parecer mal-educados.</p>
+                </div>
+            </div>
+            
+            <div class="info-box" style="background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%); border-color: #e74c3c;">
+                <div class="info-title" style="color: #c0392b;">🚨 Alerta Importante!</div>
+                <div class="info-text" style="color: #7f1d1d;">
+                    <strong>Nunca</strong> confie em mensagens que pedem senhas, informações sobre você (como você, quantos anos você tem, qual a cor da sua pele ou dos seus olhos, informações que estão nos seus documentos) ou pedem para você 
+                    clicar em links estranhos! Sempre peça ajuda a seus pais ou responsáveis! 👨‍👩‍👧‍👦
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(5)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(7)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 7: Escudo Protetor -->
+        <div class="page" id="page7">
+            <div class="hero-badge">Defesa</div>
+            <h2>O Escudo Protetor - Como se Defender 🛡️</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; color: #2d3748; margin-bottom: 30px;">
+                Aprenda as 5 Regras de Ouro para se proteger online:
+            </p>
+            
+            <div class="shield-rules">
+                <div class="rule-card">
+                    <div class="rule-icon">🔐</div>
+                    <div class="rule-content">
+                        <div class="rule-title">Regra da Senha Secreta</div>
+                        <div class="rule-text">
+                            Nunca conte sua senha para NINGUÉM! Nem para o melhor amigo! 
+                            Senhas são como chaves mágicas que só você deve ter.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-icon">❓</div>
+                    <div class="rule-content">
+                        <div class="rule-title">Regra da Desconfiança Saudável</div>
+                        <div class="rule-text">
+                            Se parece bom demais para ser verdade, provavelmente é mentira! 
+                            Ninguém dá prêmios de graça pela internet.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-icon">👨‍👩‍👧</div>
+                    <div class="rule-content">
+                        <div class="rule-title">Regra do Adulto de Confiança</div>
+                        <div class="rule-text">
+                            Sempre que tiver dúvida, chame um adulto responsável! 
+                            Pais, professores e familiares estão lá para te ajudar.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-icon">🚫</div>
+                    <div class="rule-content">
+                        <div class="rule-title">Regra do "Não Clique"</div>
+                        <div class="rule-text">
+                            Nunca clique em links de mensagens estranhas! 
+                            Eles podem levar você para armadilhas perigosas.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-icon">⏸️</div>
+                    <div class="rule-content">
+                        <div class="rule-title">Regra da Pausa para Pensar</div>
+                        <div class="rule-text">
+                            Quando algo pedir urgência, pare e pense! 
+                            Os vilões querem que você aja sem pensar.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(6)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(8)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 8: Pedrinho e Nina Salvam o Dia -->
+        <div class="page" id="page8">
+            <div class="hero-badge">Vitória!</div>
+            <h2>Pedrinho e Nina Salvam o Dia 🎊</h2>
+            
+            <div class="story-step">
+                <div class="step-number">1</div>
+                <div class="step-title">🙋‍♂️ Pedrinho Pede Ajuda</div>
+                <div class="step-content">
+                    Pedrinho aprendeu a lição e chamou sua mãe:
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                        <strong>"Mãe, apareceu esta mensagem dizendo que ganhei um celular. O que você acha?"</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="story-step">
+                <div class="step-number">2</div>
+                <div class="step-title">✅ Mãe Reconhece o Perigo</div>
+                <div class="step-content">
+                    <div style="background: white; padding: 15px; border-radius: 10px;">
+                        <strong style="color: #27ae60;">"Muito bem, filho! Isso é um golpe mesmo. Vamos deletar esta mensagem juntos."</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="story-step">
+                <div class="step-number">3</div>
+                <div class="step-title">🤝 Ajudando um Amigo</div>
+                <div class="step-content">
+                    Na escola, Nina e Pedrinho ajudam Pedro a não cair numa armadilha parecida. 
+                    Agora eles são guardiões da segurança digital!
+                </div>
+            </div>
+            
+            <div class="story-step">
+                <div class="step-number">4</div>
+                <div class="step-title">🏆 Vitória dos Heróis</div>
+                <div class="step-content">
+                    Prot apareceu mais uma vez:
+                    <div style="background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; padding: 20px; border-radius: 15px; margin-top: 15px; text-align: center; font-size: 1.2em;">
+                        <strong>"Agora vocês são oficialmente Detetives Digitais! 🔎🎖️"</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 100px;">🦸‍♂️🦸‍♀️🤖</div>
+                <p style="font-size: 1.3em; color: #27ae60; font-weight: bold;">
+                    Missão Cumprida! Agora é sua vez de se tornar um herói!
+                </p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(7)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(9)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 9: Treinamento -->
+        <div class="page" id="page9">
+            <div class="hero-badge">Atividades</div>
+            <h2>Treinamento dos Heróis Digitais 🎯</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; color: #2d3748; margin-bottom: 30px;">
+                Agora que você aprendeu sobre os truques do Capitão Mentira, vamos praticar juntos! 💪
+            </p>
+            
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon">🎮</div>
+                    <div class="activity-title">Jogo da Senha Segura</div>
+                    <div class="activity-desc">
+                        <strong>Como fazer:</strong><br>
+                        Crie uma senha forte com pelo menos 8 caracteres usando letras, números e símbolos (@#$%). 
+                        Nunca use seu nome, data de nascimento ou palavras fáceis como "senha123"!
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <div class="activity-icon">🎭</div>
+                    <div class="activity-title">Brincadeira com os Pais</div>
+                    <div class="activity-desc">
+                        <strong>Como fazer:</strong><br>
+                        Peça para seus pais criarem situações de perigo (como mensagens falsas) e você treina o que deve fazer. 
+                        Por exemplo: "Você ganhou um prêmio!" - Resposta: "Não vou clicar, vou chamar meus pais!"
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <div class="activity-icon">🔍</div>
+                    <div class="activity-title">Caça aos Sinais de Perigo</div>
+                    <div class="activity-desc">
+                        <strong>Como fazer:</strong><br>
+                        Procure mensagens suspeitas com seus pais e identifique os sinais de perigo: 
+                        pede senha? Promete prêmio? Tem urgência? Se encontrar, mostre para um adulto!
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <div class="activity-icon">📅</div>
+                    <div class="activity-title">Missão da Semana</div>
+                    <div class="activity-desc">
+                        <strong>Como fazer:</strong><br>
+                        Durante uma semana, sempre que usar a internet, lembre-se das 5 regras de ouro. 
+                        Conte para seus pais cada vez que você identificar algo suspeito. Isso te torna um verdadeiro herói!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-title">💡 Dica Importante do Prot:</div>
+                <div class="info-text">
+                    <strong>Faça estas atividades SEMPRE com seus pais ou responsáveis!</strong><br>
+                    Eles vão te ajudar a aprender melhor e ficar mais seguro na internet. 
+                    Juntos, vocês podem criar combinados sobre o uso da internet em casa! 🏠💙
+                </div>
+            </div>
+            
+            <div class="info-box" style="background: linear-gradient(135deg, #e6ffe6 0%, #ccffcc 100%); border-color: #27ae60;">
+                <div class="info-title" style="color: #1e7e34;">✅ Checklist do Herói Digital:</div>
+                <div class="info-text" style="color: #155724;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">☐ Criei uma senha forte e não contei para ninguém</li>
+                        <li style="padding: 8px 0;">☐ Sempre pergunto aos meus pais quando tenho dúvidas</li>
+                        <li style="padding: 8px 0;">☐ Nunca clico em links de mensagens estranhas</li>
+                        <li style="padding: 8px 0;">☐ Desconfio de prêmios "grátis"</li>
+                        <li style="padding: 8px 0;">☐ Paro e penso antes de agir na internet</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(8)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(10)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 10: Quiz -->
+        <div class="page" id="page10">
+            <div class="hero-badge">Teste seus Conhecimentos</div>
+            <h2>Quiz dos Detetives Digitais 🕵️</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; color: #2d3748; margin-bottom: 30px;">
+                Responda corretamente e prove que você aprendeu as lições!
+            </p>
+            
+            <div id="quizScore" style="display: none;" class="quiz-score"></div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    <div class="question-text">1. É seguro dar sua senha para seu melhor amigo?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, false, 'q1')">
+                            Sim, ele é meu amigo!
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true, 'q1')">
+                            Não, senhas são secretas!
+                        </div>
+                    </div>
+                    <div class="feedback" id="feedback-q1"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="question-text">2. Uma mensagem diz "Você ganhou R$ 1.000! Clique aqui!" O que fazer?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, false, 'q2')">
+                            Clicar para receber!
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true, 'q2')">
+                            Ignorar e chamar os pais ou responsáveis!
+                        </div>
+                    </div>
+                    <div class="feedback" id="feedback-q2"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="question-text">3. Alguém diz "Trabalho na sua escola, me passe seus dados". Você deve:</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, false, 'q3')">
+                            Passar os dados
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true, 'q3')">
+                            Desconfiar e perguntar aos pais
+                        </div>
+                    </div>
+                    <div class="feedback" id="feedback-q3"></div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(9)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(11)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 11: Certificado -->
+        <div class="page" id="page11">
+            <div class="hero-badge">Parabéns!</div>
+            <h2>Você é um Herói Digital! 🎉</h2>
+            
+            <div class="certificate">
+                <div class="certificate-title">🏆 CERTIFICADO 🏆</div>
+                <div class="certificate-badge">⭐</div>
+                <div class="certificate-text">
+                    Este certificado é concedido a VOCÊ
+                </div>
+                <div class="certificate-name">_________________________ </div>
+                <div class="certificate-text">
+                    Por completar com sucesso o treinamento<br>
+                    <strong>"Aventuras de Pedrinho e Nina contra os Truques da Internet"</strong>
+                </div>
+                <div style="margin-top: 20px; color: #667eea; font-size: 1.1em; position: relative; z-index: 1;">
+                    Você agora é oficialmente um<br>
+                    <strong style="font-size: 1.3em;">DETETIVE DIGITAL CERTIFICADO! 🔎🎖️</strong>
+                </div>
+                <button class="btn" onclick="printCertificate()" style="margin-top: 20px; position: relative; z-index: 1;">🖨️ Imprimir Certificado</button>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-title">🌟 Lembre-se sempre:</div>
+                <div class="info-text">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">✅ Nunca compartilhe senhas</li>
+                        <li style="padding: 8px 0;">✅ Desconfie de prêmios "grátis"</li>
+                        <li style="padding: 8px 0;">✅ Sempre pergunte aos adultos</li>
+                        <li style="padding: 8px 0;">✅ Não clique em links estranhos</li>
+                        <li style="padding: 8px 0;">✅ Pare e pense antes de agir</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 80px;">🦸‍♂️🦸‍♀️🤖🛡️</div>
+                <p style="font-size: 1.3em; color: #667eea; font-weight: bold; margin-top: 20px;">
+                    Continue protegendo a internet e ensinando seus amigos!<br>
+                    Juntos somos mais fortes! 💪
+                </p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(10)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(1)">🔄 Recomeçar</button>
+            </div>
+        </div>
+    </div>
+    
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</button>
+    
+    <footer>
+        <p style="font-size: 1.2em; font-weight: bold;">✨ Aventuras de Pedrinho e Nina ✨</p>
+        <p style="margin-bottom: 15px;">Cartilha Educativa sobre Segurança Digital</p>
+        <p style="font-weight: bold; margin-bottom: 10px;">
+            Iniciativa: Corregedoria-Geral de Justiça e Presidência do Tribunal de Justiça do Estado do Pará
+        </p>
+        <p>📚 Conteúdo: Simone Cristina Pires Tavares e Dilcele Pother Furtado</p>
+        <p>🎨 Artefato: Dilcele Fernandes de Oliveira Pother Furtado</p>
+        <p>✅ Revisão Técnica: Monique Soares Leite</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">
+            © 2025 - TJPA | Cartilha interativa para crianças
+        </p>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 11;
+        let quizScore = 0;
+        let answeredQuestions = 0;
+        
+        function navigateTo(pageNumber) {
+            document.getElementById('page' + currentPage).classList.remove('active');
+            currentPage = pageNumber;
+            document.getElementById('page' + currentPage).classList.add('active');
+            document.getElementById('currentPage').textContent = currentPage;
+            
+            const progressPercentage = ((currentPage - 1) / (totalPages - 1)) * 100;
+            document.getElementById('progress').style.width = progressPercentage + '%';
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            if (pageNumber === 11) {
+                celebrateCertificate();
+            }
+        }
+        
+        function checkAnswer(element, isCorrect, questionId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            const feedback = document.getElementById('feedback-' + questionId);
+            answeredQuestions++;
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '<strong>🎉 Correto!</strong> Você está aprendendo muito bem! Continue assim!';
+                quizScore++;
+                createConfetti();
+            } else {
+                element.classList.add('incorrect');
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = '<strong>❌ Ops!</strong> Esta não é a melhor resposta. Mas não desista, você vai aprender!';
+            }
+            
+            updateQuizScore();
+        }
+        
+        function updateQuizScore() {
+            if (answeredQuestions === 3) {
+                const scoreDiv = document.getElementById('quizScore');
+                scoreDiv.style.display = 'block';
+                scoreDiv.innerHTML = `🎯 Sua pontuação: ${quizScore}/3 ${quizScore === 3 ? '🌟 PERFEITO!' : quizScore === 2 ? '👍 Muito bem!' : '💪 Continue praticando!'}`;
+                
+                if (quizScore === 3) {
+                    createMegaConfetti();
+                }
+            }
+        }
+        
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#fd79a8'];
+            
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confettiFall ${2 + Math.random() * 3}s linear forwards`;
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+        
+        function createMegaConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#fd79a8', '#ffd700', '#ff69b4'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confettiFall ${2 + Math.random() * 4}s linear forwards`;
+                confetti.style.animationDelay = Math.random() * 1 + 's';
+                confetti.style.width = (5 + Math.random() * 10) + 'px';
+                confetti.style.height = (5 + Math.random() * 10) + 'px';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 6000);
+            }
+        }
+        
+        function celebrateCertificate() {
+            setTimeout(() => {
+                createMegaConfetti();
+            }, 500);
+        }
+        
+        function printCertificate() {
+            const certificateContent = document.querySelector('.certificate').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Certificado - Detetive Digital</title>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        body {
+                            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            padding: 20px;
+                        }
+                        .certificate {
+                            background: white;
+                            border: 8px double #667eea;
+                            border-radius: 25px;
+                            padding: 50px;
+                            max-width: 700px;
+                            text-align: center;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                        }
+                        .certificate-title {
+                            color: #667eea;
+                            font-size: 2.5em;
+                            margin-bottom: 20px;
+                        }
+                        .certificate-badge {
+                            font-size: 120px;
+                            margin: 20px 0;
+                        }
+                        .certificate-text {
+                            color: #2d3748;
+                            font-size: 1.3em;
+                            margin: 15px 0;
+                            line-height: 1.8;
+                        }
+                        .certificate-name {
+                            color: #667eea;
+                            font-size: 2.5em;
+                            font-weight: bold;
+                            margin: 25px 0;
+                        }
+                        strong {
+                            color: #667eea;
+                        }
+                        .btn {
+                            display: none;
+                        }
+                        @media print {
+                            body {
+                                background: white;
+                            }
+                            .certificate {
+                                box-shadow: none;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="certificate">
+                        ${certificateContent}
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+        
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('totalPages').textContent = totalPages;
+        document.getElementById('currentPage').textContent = currentPage;
+    </script>
+</body>
+</html>
