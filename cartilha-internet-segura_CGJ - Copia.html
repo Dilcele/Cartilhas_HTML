@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigos da Internet Segura - Cartilha Interativa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 1s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .page {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            border: 4px solid #78c2ff;
+            position: relative;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .character {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h2 {
+            color: #667eea;
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: inherit;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .progress-container {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            height: 20px;
+            width: 100%;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .page-indicator {
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        .scenario {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 6px solid #e17055;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .choice {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            background-color: #e6f2ff;
+            border: 3px solid #78c2ff;
+            border-radius: 15px;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .choice:hover {
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            transform: translateX(10px);
+            border-color: #4CAF50;
+        }
+        
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+            animation: slideIn 0.5s;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .correct {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left: 6px solid #28a745;
+        }
+        
+        .incorrect {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-left: 6px solid #dc3545;
+        }
+        
+        .illustration-box {
+            min-height: 220px;
+            background: linear-gradient(135deg, #e6f2ff 0%, #c3dafe 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 450px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .emoji {
+            font-size: 90px;
+            margin-bottom: 15px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .tips {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 6px solid #ffc107;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tips h3 {
+            margin-bottom: 10px;
+            color: #e67e22;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .summary-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .summary-icon {
+            margin-right: 15px;
+            font-size: 40px;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .certificate {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 4px solid #667eea;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .badge {
+            font-size: 80px;
+            margin: 15px 0;
+            animation: rotate 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .bookmark {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 0 0 15px 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #667eea;
+            cursor: help;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        footer {
+            background-color: #2d3561;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+            border-radius: 20px;
+        }
+        
+        footer p {
+            margin: 8px 0;
+            font-size: 0.95em;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .character {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            .btn {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Amigos da Internet Segura 🌟</h1>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress" style="width: 0%"></div>
+        </div>
+        
+        <div class="page-indicator">
+            Página <span id="currentPage">1</span> de <span id="totalPages">9</span>
+        </div>
+        
+        <!-- Página 1: Introdução -->
+        <div class="page active" id="page1">
+            <div class="bookmark">Para todos</div>
+            <div class="character">👋</div>
+            <h2>Olá, amiguinho!</h2>
+            <p>Meu nome é <strong>Byte</strong>, e eu vou te ajudar a entender como usar a internet de um jeito seguro e legal!</p>
+            
+            <div class="illustration-box">
+                <span class="emoji">🌐</span>
+                <p style="font-size: 1.2em;"><strong>A Internet é como um grande parque de diversões!</strong></p>
+            </div>
+            
+            <p>Mas você sabia que, assim como nos parques, precisamos ter cuidado com algumas coisas na internet?</p>
+            <p>Hoje vamos aprender sobre uma coisa chamada <span class="tooltip">Engenharia Social<span class="tooltiptext">Quando pessoas fingem ser quem não são para pegar suas informações</span></span>. Parece um nome difícil, mas eu vou explicar bem facinho!</p>
+            
+            <div class="navigation">
+                <button class="btn" disabled>⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(2)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 2: O que é Engenharia Social -->
+        <div class="page" id="page2">
+            <div class="bookmark">Para todos</div>
+            <div class="character">🤔</div>
+            <h2>O que é Engenharia Social?</h2>
+            
+            <p>Engenharia Social é quando pessoas malvadas fingem ser pessoas boas para conseguir seus segredos!</p>
+            
+            <div class="illustration-box">
+                <span class="emoji">🎭</span>
+                <p style="font-size: 1.2em;"><strong>É como uma pessoa usando uma máscara, fingindo ser quem não é!</strong></p>
+            </div>
+            
+            <p><strong>Por exemplo:</strong></p>
+            <ul>
+                <li>Alguém finge ser uma pessoa que você conhece</li>
+                <li>Alguém que finge ter um problema muito urgente</li>
+                <li>Alguém te oferece presentes ou prêmios que parecem bons demais (mas é mentira!)</li>
+                <li>Alguém que te assusta para fazer algo rápido, sem pensar</li>
+            </ul>
+            
+            <div class="tips">
+                <h3>💡 Lembre-se:</h3>
+                <p>Na internet, nem sempre as pessoas são quem dizem ser!</p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(1)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(3)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 3: Como funciona -->
+        <div class="page" id="page3">
+            <div class="bookmark">Para crianças</div>
+            <div class="character">🔍</div>
+            <h2>Como eles fazem isso?</h2>
+            
+            <p>As pessoas que fazem engenharia social são como os lobos da história da Chapeuzinho Vermelho!</p>
+            
+            <div class="illustration-box">
+                <span class="emoji">🐺</span>
+                <p style="font-size: 1.2em;"><strong>"Oh! Que olhos grandes você tem, vovó!"</strong></p>
+                <p style="font-size: 0.9em; font-style: italic;">O lobo fingiu ser quem não era para enganar a Chapeuzinho!</p>
+            </div>
+            
+            <p><strong>Eles usam truques como:</strong></p>
+            <ol>
+                <li>Tentam falar ou escrever parecido com alguém que você conhece, fingindo ser essa pessoa</li>
+                <li>Mentem dizendo que tem um problema muito urgente, pra te enganar e te levar a fazer algo sem pensar</li>
+                <li>Oferecer presentes ou prêmios que parecem muito legais, mas não existem</li>
+                <li>Assustar você para fazer algo rápido sem pensar</li>
+            </ol>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(2)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(4)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 4: Exemplo para crianças -->
+        <div class="page" id="page4">
+            <div class="bookmark">Para crianças</div>
+            <div class="character">🎮</div>
+            <h2>Vamos jogar um jogo?</h2>
+            
+            <div class="scenario">
+                <p>Você está jogando seu jogo favorito online quando recebe uma mensagem:</p>
+                <p><strong>"Olá! Eu trabalho para o jogo. Notamos um problema na sua conta! Preciso da sua senha para arrumar. Precisa ser rapidinho pra você passar de fase. Se você nos ajudar agora, ganhará muitos prêmios!"</strong></p>
+            </div>
+            
+            <p><strong>O que você faz?</strong></p>
+            
+            <button class="choice" onclick="showFeedback('feedback1', false)">🔐 Dou minha senha para que eles arrumem minha conta!</button>
+            <button class="choice" onclick="showFeedback('feedback1', true)">👨‍👩‍👧 Não dou minha senha e conto para meus pais ou responsáveis sobre essa mensagem!</button>
+            
+            <div id="feedback1" class="feedback"></div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(3)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(5)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 5: Exemplo para crianças -->
+        <div class="page" id="page5">
+            <div class="bookmark">Para crianças</div>
+            <div class="character">📱</div>
+            <h2>Atenção ao celular!</h2>
+            
+            <div class="scenario">
+                <p>Você recebe uma mensagem no celular dos seus pais:</p>
+                <p><strong>"🎁 PARABÉNS! Você ganhou um celular novo e 100 jogos grátis! Clique aqui AGORA para receber! Só faltam 10 minutos! ⏰"</strong></p>
+            </div>
+            
+            <p><strong>O que você deve fazer?</strong></p>
+            
+            <button class="choice" onclick="showFeedback('feedback2', false)">🎁 Clicar no link porque quero ganhar o celular e os jogos!</button>
+            <button class="choice" onclick="showFeedback('feedback2', true)">👨‍👩‍👧 Não clicar e mostrar a mensagem para meus pais ou responsáveis!</button>
+            
+            <div id="feedback2" class="feedback"></div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(4)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(6)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 6: Dicas de segurança -->
+        <div class="page" id="page6">
+            <div class="bookmark">Para todos</div>
+            <div class="character">🛡️</div>
+            <h2>Como se proteger</h2>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🤫</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Guarde suas senhas como um tesouro secreto!</strong>
+                    <p>Suas senhas são como a chave da sua casa. Nunca conte para ninguém - nem para amigos, nem para pessoas que dizem trabalhar em jogos ou na escola!</p>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">👨‍👩‍👧</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Sempre pergunte para seus pais ou responsáveis!</strong>
+                    <p>Se alguém pedir algo estranho pela internet, conte imediatamente para seus pais, professores ou um adulto de confiança. Eles vão te ajudar!</p>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🎁</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Cuidado com presentes "grátis"!</strong>
+                    <p>Se alguém te prometer celular novo, muito dinheiro ou prêmios incríveis de graça pela internet, desconfie! Provavelmente é mentira e pode ser perigoso.</p>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🐢</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Vá devagar, sem pressa!</strong>
+                    <p>Pessoas más tentam fazer você clicar rápido sem pensar. Quando receber uma mensagem urgente, pare, respire e chame um adulto antes de fazer qualquer coisa!</p>
+                </div>
+            </div>
+            
+            <div class="tips">
+                <h3>💡 Regra de Ouro:</h3>
+                <p style="font-size: 1.15em;"><strong>Na dúvida, sempre pergunte para seus pais ou responsáveis antes de clicar em qualquer link ou dar informações!</strong></p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(5)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(7)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 7: Dicas para pais e professores -->
+        <div class="page" id="page7">
+            <div class="bookmark">Para adultos</div>
+            <div class="character">👨‍👩‍👧‍👦</div>
+            <h2>Para Pais e Educadores</h2>
+            
+            <p><strong>Como ajudar as crianças a navegar com segurança:</strong></p>
+            
+            <div class="summary-item">
+                <div class="summary-icon">💬</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Mantenha diálogo aberto</strong>
+                    <p>Converse regularmente sobre o que elas fazem online e estimule que compartilhem experiências estranhas.</p>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🏫</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Ensine com exemplos simples</strong>
+                    <p>Use analogias como "não abrir a porta para estranhos" para explicar segurança online.</p>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🎭</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Faça simulações</strong>
+                    <p>Crie cenários seguros para praticar como reagir a tentativas de golpe.</p>
+                </div>
+            </div>
+            
+            <div class="tips">
+                <h3>💡 Para servidores do TJPA:</h3>
+                <p>Compartilhe este material com seus colegas e família. Conhecimento compartilhado ajuda a criar uma rede de proteção contra golpes!</p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(6)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(8)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 8: Atividades Práticas -->
+        <div class="page" id="page8">
+            <div class="bookmark">Para todos</div>
+            <div class="character">✏️</div>
+            <h2>Atividades Práticas</h2>
+            
+            <p><strong>Vamos testar o que você aprendeu!</strong></p>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🔍</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Atividade 1: Encontre os sinais de perigo</strong>
+                    <p>Quais dessas mensagens são perigosas?</p>
+                    <div style="margin-top: 10px;">
+                        <button class="choice" onclick="showActivity1Feedback(this, true)" style="font-size: 0.95em;">📧 "Você ganhou R$ 10.000! Clique aqui URGENTE!"</button>
+                        <button class="choice" onclick="showActivity1Feedback(this, false)" style="font-size: 0.95em;">📱 "Oi filho, tudo bem? Chego tarde hoje. Beijos, mãe"</button>
+                        <button class="choice" onclick="showActivity1Feedback(this, true)" style="font-size: 0.95em;">⚠️ "Sua conta será bloqueada em 1 hora. Envie sua senha!"</button>
+                    </div>
+                    <div id="activity1-feedback" style="margin-top: 10px; padding: 10px; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <div class="summary-icon">🎨</div>
+                <div>
+                    <strong style="font-size: 1.2em;">Atividade 2: Crie sua senha forte</strong>
+                    <p>Uma senha boa tem:</p>
+                    <ul style="font-size: 0.95em;">
+                        <li>✅ Letras maiúsculas e minúsculas</li>
+                        <li>✅ Números</li>
+                        <li>✅ Símbolos (@ # $ %)</li>
+                        <li>✅ Mais de 8 caracteres</li>
+                        <li>❌ NÃO use seu nome ou data de nascimento!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tips">
+                <h3>💡 Dica Extra:</h3>
+                <p>Conte aos seus amigos e família o que você aprendeu hoje! Juntos somos mais fortes contra os golpes!</p>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(7)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(9)">Próximo ➡️</button>
+            </div>
+        </div>
+
+        <!-- Página 9: Conclusão e certificado -->
+        <div class="page" id="page9">
+            <div class="bookmark">Para todos</div>
+            <div class="character">🎓</div>
+            <h2>Parabéns!</h2>
+            
+            <p>Você aprendeu como se proteger dos truques de engenharia social!</p>
+            
+            <div class="illustration-box">
+                <span class="emoji">🦸‍♀️</span>
+                <p style="font-size: 1.3em;"><strong>Agora você é um herói da internet segura!</strong></p>
+            </div>
+            
+            <div class="certificate">
+                <h3 style="color: #667eea; font-size: 1.5em;">🏆 Certificado 🏆</h3>
+                <div class="badge">🌟</div>
+                <p style="font-size: 1.1em;">Este certificado é concedido a VOCÊ</p>
+                <p style="font-size: 1.5em; color: #667eea; margin: 15px 0;"><strong> ______________ </strong></p>
+                <p style="font-size: 1.1em;">Por completar o treinamento<br><strong>"Amigos da Internet Segura"</strong></p>
+                <p style="font-size: 0.9em; margin-top: 15px;">TJPA - Tribunal de Justiça do Pará</p>
+                <button class="btn" onclick="printCertificate()" style="margin-top: 15px;">🖨️ Imprimir Certificado</button>
+            </div>
+            
+            <div class="tips">
+                <h3>💡 Lembre-se:</h3>
+                <p>Se algo parecer estranho na internet, conte para seus pais ou responsáveis!</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="printFullGuide()" style="font-size: 1.1em; padding: 15px 30px;">📖 Imprimir Cartilha Completa</button>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="navigateTo(8)">⬅️ Voltar</button>
+                <button class="btn" onclick="navigateTo(1)">🔄 Recomeçar</button>
+            </div>
+        </div>
+    </div>
+    
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</button>
+    
+    <footer>
+        <p>© 2025</p>
+        <p style="font-weight: bold;">Iniciativa: Corregedoria Geral de Justiça do Estado do Pará - CGJ e Presidência do Tribunal de Justiça do Estado do Pará</p>
+        <p>Elaboração: Dilcele Fernandes de Oliveira Pother Furtado | CGJ/TJPA</p>
+        <p>Revisão Técnica: Monique Soares Leite | CGJ/TJPA</p>
+        <p>Revisão Técnica: Simone Tavares | SETIC/TJPA</p>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 9;
+        
+        function navigateTo(pageNumber) {
+            document.getElementById('page' + currentPage).classList.remove('active');
+            currentPage = pageNumber;
+            document.getElementById('page' + currentPage).classList.add('active');
+            document.getElementById('currentPage').textContent = currentPage;
+            
+            const progressPercentage = ((currentPage - 1) / (totalPages - 1)) * 100;
+            document.getElementById('progress').style.width = progressPercentage + '%';
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function showFeedback(feedbackId, isCorrect) {
+            const feedbackElement = document.getElementById(feedbackId);
+            
+            if (feedbackId === 'feedback2') {
+                feedbackElement.innerHTML = isCorrect ? 
+                    '<strong style="font-size: 1.2em;">✅ Muito bem!</strong><p style="font-size: 1.1em;">Você acertou! Essas mensagens de prêmios são mentira! Sempre mostre para seus pais ou responsáveis antes de clicar em qualquer coisa.</p>' : 
+                    '<strong style="font-size: 1.2em;">❌ Cuidado!</strong><p style="font-size: 1.1em;">Essa é uma armadilha! Ninguém dá celular ou jogos de graça assim. É um truque para roubar informações. Sempre peça ajuda para um adulto!</p>';
+            } else {
+                feedbackElement.innerHTML = isCorrect ? 
+                    '<strong style="font-size: 1.2em;">✅ Muito bem!</strong><p style="font-size: 1.1em;">Você fez a escolha certa! Nunca devemos compartilhar senhas ou clicar em links suspeitos.</p>' : 
+                    '<strong style="font-size: 1.2em;">❌ Cuidado!</strong><p style="font-size: 1.1em;">Esta é uma armadilha! Pessoas que trabalham em empresas sérias nunca pedem sua senha ou te apressam para clicar em links.</p>';
+            }
+            
+            feedbackElement.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedbackElement.style.display = 'block';
+            
+            playSound(isCorrect ? 'correct' : 'incorrect');
+        }
+        
+        function showActivity1Feedback(button, isDangerous) {
+            const feedback = document.getElementById('activity1-feedback');
+            const allButtons = button.parentElement.querySelectorAll('.choice');
+            
+            allButtons.forEach(btn => {
+                btn.style.border = '3px solid #78c2ff';
+                btn.style.backgroundColor = '#e6f2ff';
+            });
+            
+            if (isDangerous) {
+                button.style.border = '3px solid #dc3545';
+                button.style.backgroundColor = '#f8d7da';
+                feedback.innerHTML = '<strong>✅ Correto!</strong> Esta mensagem é perigosa! Você identificou um golpe!';
+                feedback.style.backgroundColor = '#d4edda';
+                feedback.style.borderLeft = '6px solid #28a745';
+                playSound('correct');
+            } else {
+                button.style.border = '3px solid #28a745';
+                button.style.backgroundColor = '#d4edda';
+                feedback.innerHTML = '<strong>✅ Muito bem!</strong> Esta mensagem parece segura!';
+                feedback.style.backgroundColor = '#d4edda';
+                feedback.style.borderLeft = '6px solid #28a745';
+                playSound('correct');
+            }
+            
+            feedback.style.display = 'block';
+        }
+        
+        function playSound(type) {
+            const soundEmoji = type === 'correct' ? '🎉' : '😅';
+            const soundDiv = document.createElement('div');
+            soundDiv.innerHTML = soundEmoji;
+            soundDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 100px; z-index: 9999; animation: explode 1s forwards;';
+            document.body.appendChild(soundDiv);
+            setTimeout(() => soundDiv.remove(), 1000);
+        }
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes explode {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                50% { transform: translate(-50%, -50%) scale(1.5); }
+                100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('totalPages').textContent = totalPages;
+        document.getElementById('currentPage').textContent = currentPage;
+        
+        function printCertificate() {
+            // Criar uma nova janela apenas com o certificado
+            const certificateContent = document.querySelector('.certificate').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Certificado - Amigos da Internet Segura</title>
+                    <style>
+                        body {
+                            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                            margin: 0;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        }
+                        .certificate {
+                            background: white;
+                            border: 8px solid #667eea;
+                            border-radius: 20px;
+                            padding: 50px;
+                            max-width: 600px;
+                            text-align: center;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        }
+                        h3 {
+                            color: #667eea;
+                            font-size: 2em;
+                            margin-bottom: 20px;
+                        }
+                        .badge {
+                            font-size: 100px;
+                            margin: 20px 0;
+                        }
+                        p {
+                            font-size: 1.2em;
+                            margin: 15px 0;
+                            color: #333;
+                        }
+                        strong {
+                            color: #667eea;
+                        }
+                        .btn {
+                            display: none;
+                        }
+                        @media print {
+                            body {
+                                background: white;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="certificate">
+                        ${certificateContent}
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Aguardar carregamento e abrir janela de impressão
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+        
+        function printFullGuide() {
+            // Coletar conteúdo de todas as páginas
+            let allContent = '<h1 style="text-align: center; color: #667eea; margin-bottom: 30px;">🌟 Amigos da Internet Segura 🌟</h1>';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageContent = document.getElementById('page' + i).innerHTML;
+                allContent += '<div style="page-break-after: always; margin-bottom: 40px;">' + pageContent + '</div>';
+            }
+            
+            const printWindow = window.open('', '', 'width=900,height=700');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Cartilha Completa - Amigos da Internet Segura</title>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        body {
+                            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+                            padding: 20px;
+                            line-height: 1.6;
+                            color: #333;
+                            background: white;
+                        }
+                        h1 {
+                            color: #667eea;
+                            text-align: center;
+                            margin-bottom: 30px;
+                            font-size: 2em;
+                        }
+                        h2 {
+                            color: #667eea;
+                            font-size: 1.5em;
+                            margin: 20px 0 15px 0;
+                            border-bottom: 2px solid #667eea;
+                            padding-bottom: 10px;
+                        }
+                        h3 {
+                            color: #e67e22;
+                            font-size: 1.2em;
+                            margin: 15px 0 10px 0;
+                        }
+                        p {
+                            margin: 10px 0;
+                            font-size: 1em;
+                        }
+                        ul, ol {
+                            margin: 10px 0 10px 30px;
+                        }
+                        li {
+                            margin: 8px 0;
+                        }
+                        .character {
+                            display: inline-block;
+                            font-size: 40px;
+                            margin: 10px 0;
+                        }
+                        .bookmark {
+                            background: #ff6b6b;
+                            color: white;
+                            padding: 5px 15px;
+                            border-radius: 5px;
+                            display: inline-block;
+                            margin-bottom: 10px;
+                            font-weight: bold;
+                        }
+                        .scenario {
+                            background: #ffeaa7;
+                            padding: 15px;
+                            border-radius: 10px;
+                            border-left: 5px solid #e17055;
+                            margin: 15px 0;
+                        }
+                        .tips {
+                            background: #fff8e1;
+                            padding: 15px;
+                            border-radius: 10px;
+                            border-left: 5px solid #ffc107;
+                            margin: 15px 0;
+                        }
+                        .illustration-box {
+                            background: #e6f2ff;
+                            padding: 20px;
+                            border-radius: 10px;
+                            text-align: center;
+                            margin: 15px 0;
+                        }
+                        .emoji {
+                            font-size: 60px;
+                            display: block;
+                            margin: 10px 0;
+                        }
+                        .summary-item {
+                            background: #f8f9fa;
+                            padding: 15px;
+                            border-radius: 10px;
+                            margin: 15px 0;
+                            display: flex;
+                            align-items: flex-start;
+                        }
+                        .summary-icon {
+                            font-size: 30px;
+                            margin-right: 15px;
+                            min-width: 40px;
+                        }
+                        .certificate {
+                            border: 5px solid #667eea;
+                            padding: 30px;
+                            text-align: center;
+                            margin: 20px 0;
+                            border-radius: 15px;
+                        }
+                        .badge {
+                            font-size: 60px;
+                            display: block;
+                            margin: 15px 0;
+                        }
+                        .navigation, .btn, .choice, .feedback, .back-to-top {
+                            display: none !important;
+                        }
+                        footer {
+                            background: #2d3561;
+                            color: white;
+                            padding: 20px;
+                            text-align: center;
+                            margin-top: 30px;
+                            border-radius: 10px;
+                        }
+                        footer p {
+                            margin: 5px 0;
+                            font-size: 0.9em;
+                        }
+                        @media print {
+                            .page-break {
+                                page-break-after: always;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${allContent}
+                    <footer>
+                        <p>© 2025</p>
+                        <p style="font-weight: bold;">Iniciativa: Corregedoria Geral de Justiça do Estado do Pará - CGJ e Presidência do Tribunal de Justiça do Estado do Pará</p>
+                        <p>Elaboração: Dilcele Fernandes de Oliveira Pother Furtado | CGJ/TJPA</p>
+                        <p>Revisão Técnica: Monique Soares Leite | CGJ/TJPA</p>
+                        <p>Revisão Técnica: Simone Tavares | SETIC/TJPA</p>
+                    </footer>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Aguardar carregamento e abrir janela de impressão
+            setTimeout(() => {
+                printWindow.print();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
